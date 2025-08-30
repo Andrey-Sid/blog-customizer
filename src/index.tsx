@@ -1,4 +1,3 @@
-
 import { createRoot } from 'react-dom/client';
 import { CSSProperties, StrictMode, useCallback, useState } from 'react';
 import clsx from 'clsx';
