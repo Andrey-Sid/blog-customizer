@@ -33,58 +33,69 @@ export const ArticleParamsForm = ({
 	onApply,
 	onReset,
 }: ArticleParamsFormProps) => {
-	const [isOpen, setIsOpen] = useState(false);
+	const [isMenuOpen, setIsMenuOpen] = useState(false);
 	const asideRef = useRef<HTMLDivElement>(null);
 
 	useOutsideClickClose({
-		isOpen: isOpen,
+		isOpen: isMenuOpen, // эффект активен только при открытом меню
 		rootRef: asideRef,
-		onChange: () => setIsOpen(false),
+		onChange: () => setIsMenuOpen(false),
 	});
 
 	return (
 		<>
-			<ArrowButton isOpen={isOpen} onClick={() => setIsOpen(!isOpen)} />
+			<ArrowButton
+				isOpen={isMenuOpen}
+				onClick={() => setIsMenuOpen(!isMenuOpen)}
+			/>
 			<aside
 				ref={asideRef}
-				className={clsx(styles.container, { [styles.container_open]: isOpen })}>
+				className={clsx(styles.container, {
+					[styles.container_open]: isMenuOpen,
+				})}
+			>
 				<form
 					className={styles.form}
 					onSubmit={(e) => {
 						e.preventDefault();
-					}}>
+						onApply();
+					}}
+				>
 					<Select
 						options={fontFamilyOptions}
 						selected={formParams.fontFamilyOption}
 						onChange={(val) =>
 							setFormParams({ ...formParams, fontFamilyOption: val })
 						}
-						title='Шрифт'
+						title="Шрифт"
 					/>
 					<RadioGroup
-						name='fontSize'
+						name="fontSize"
 						options={fontSizeOptions}
 						selected={formParams.fontSizeOption}
 						onChange={(val) =>
 							setFormParams({ ...formParams, fontSizeOption: val })
 						}
-						title='Размер шрифта'
+						title="Размер шрифта"
 					/>
 					<Select
 						options={fontColors}
 						selected={formParams.fontColor}
-						onChange={(val) => setFormParams({ ...formParams, fontColor: val })}
-						title='Цвет шрифта'
+						onChange={(val) =>
+							setFormParams({ ...formParams, fontColor: val })
+						}
+						title="Цвет шрифта"
 					/>
 
 					<Separator />
+
 					<Select
 						options={backgroundColors}
 						selected={formParams.backgroundColor}
 						onChange={(val) =>
 							setFormParams({ ...formParams, backgroundColor: val })
 						}
-						title='Цвет фона'
+						title="Цвет фона"
 					/>
 					<Select
 						options={contentWidthArr}
@@ -92,21 +103,20 @@ export const ArticleParamsForm = ({
 						onChange={(val) =>
 							setFormParams({ ...formParams, contentWidth: val })
 						}
-						title='Ширина контента'
+						title="Ширина контента"
 					/>
 
 					<div className={styles.bottomContainer}>
 						<Button
-							title='Сбросить'
-							htmlType='reset'
-							type='clear'
+							title="Сбросить"
+							htmlType="reset"
+							type="clear"
 							onClick={onReset}
 						/>
 						<Button
-							title='Применить'
-							htmlType='submit'
-							type='apply'
-							onClick={onApply}
+							title="Применить"
+							htmlType="submit"
+							type="apply"
 						/>
 					</div>
 				</form>
