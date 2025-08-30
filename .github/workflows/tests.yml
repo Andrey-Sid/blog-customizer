@@ -19,6 +19,9 @@ jobs:
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
 
+        - name: List Playwright browsers
+        run: ls -l ~/.cache/ms-playwright/
+
       - name: Check if the repository is private
         if: ${{github.event.repository.private}}
         run: exit 1
